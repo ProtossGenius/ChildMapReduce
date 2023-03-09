@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(myproj)
+project(mapreduce)
 
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 17)
@@ -13,21 +13,26 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
-add_executable(myproj main.cpp)
+add_library(mapreduce "")
+target_sources(mapreduce
+    PRIVATE
+    ./main.cpp
+    ./mapreduce.h
+    ./param_parser.h
+    ./param_parser.cpp
 
-# target_link_libraries(myproj)
-
+    )
 
 # google test
 enable_testing()
-add_executable(
-    unit_test
-    ./unit_tests/hello_test.cc
-    ./unit_tests/world_test.cpp
+
+add_executable(    unit_test
+    ./param_parser_test.cc
     )
 target_link_libraries(
     unit_test
     GTest::gtest_main
+    mapreduce
     )
 
 include(GoogleTest)
