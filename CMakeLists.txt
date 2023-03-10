@@ -16,13 +16,21 @@ FetchContent_MakeAvailable(googletest)
 add_library(mapreduce "")
 target_sources(mapreduce
     PRIVATE
-    ./main.cpp
     ./mapreduce.h
     ./param_parser.h
     ./param_parser.cpp
 
     )
+add_executable(master "")
+target_sources(master
+    PRIVATE
+    ./master.cpp
+    )
 
+target_link_libraries(
+    master
+    mapreduce
+    )
 # google test
 enable_testing()
 
