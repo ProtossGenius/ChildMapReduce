@@ -4,7 +4,7 @@ prebuild:
 debug:
 
 qrun:
-	cd build && cmake .. && make && ./unit_test &&	./master
+	cd build && cmake .. && make && ctest &&	./master
 test:
 
 install:

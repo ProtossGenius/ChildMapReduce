@@ -13,13 +13,18 @@ FetchContent_Declare(
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
 
+include_directories(. ./third_part/)
+
 add_library(mapreduce "")
 target_sources(mapreduce
     PRIVATE
     ./mapreduce.h
     ./param_parser.h
     ./param_parser.cpp
-
+    ./file_spliter.h
+    ./file_spliter.cpp
+    ./file_reader.h
+    ./file_reader.cpp
     )
 add_executable(master "")
 target_sources(master
@@ -31,6 +36,24 @@ target_link_libraries(
     master
     mapreduce
     )
+add_executable(worker "")
+target_sources(worker
+    PRIVATE
+    ./master.cpp
+    )
+
+target_link_libraries(
+    worker
+    mapreduce
+    )
+
+add_executable(random_size ./random_size.cpp)
+target_link_libraries(
+    random_size
+    mapreduce
+    )
+
+
 # google test
 enable_testing()
 

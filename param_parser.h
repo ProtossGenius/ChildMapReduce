@@ -34,6 +34,9 @@ class CmdLineRegist {
                  const std::string &desc, const std::string &_default = "");
     void parse() const;
     void printInfo() const;
+    const std::vector<std::string> &normalPrarms() {
+        return param_parser.normalPrarms();
+    }
 
   private:
     ParamParser              param_parser;

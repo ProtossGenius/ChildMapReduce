@@ -1,21 +1,16 @@
-#include "defer.h"
-#include "file_reader.h"
-#include "file_spliter.h"
 #include "param_parser.h"
 #include <cstdio>
-#include <fstream>
 #include <iostream>
 #include <stack>
 #include <string>
 #include <vector>
 using namespace std;
-//
+// 你好
 int main(int arg, const char **args) {
     using namespace pglang::mapreduce;
-
     CmdLineRegist reg({arg, args});
+    string        hello;
+    reg.registe({"-hello"}, hello, "hello world", "you're welcome");
     reg.parse();
-    auto        u(std::make_unique<LocalFileReader>("out.txt"));
-    FileSpliter fs(std::move(u), 20);
-    fs.split([](const auto &str) { cout << str << endl; });
+    cout << hello << endl;
 }
