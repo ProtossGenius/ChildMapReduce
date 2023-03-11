@@ -2,6 +2,7 @@
 #include <functional>
 #include <map>
 #include <string>
+#include <vector>
 namespace pglang {
 namespace mapreduce {
 
@@ -9,15 +10,45 @@ namespace mapreduce {
 
 class MapInput {
   public:
-    const std::string value() const;
+    MapInput(const std::string &value)
+        : _value(value) {}
+    MapInput(std::string &&value)
+        : _value(std::move(value)) {}
+
+  public:
+    const std::string value() const { return _value; }
+
+  private:
+    std::string _value;
 };
+
+typedef std::unordered_map<size_t,
+                           std::map<std::string, std::vector<std::string>>>
+    MapperResult;
 class Mapper {
+  public:
+    Mapper(int part_size, const std::string &path_pre, const std::string &name);
+
   public:
     // Map deal input, to K-V pairs;
     virtual void Map(const MapInput &input) = 0;
+    virtual ~Mapper() {}
+    virtual size_t hash(const std::string &inp) const {
+        return std::hash<std::string>{}(inp);
+    }
+
+  public:
     // Emit the K-V pairs;
     void Emit(const std::string &key, const std::string &value);
-    virtual ~Mapper();
+
+  public: // only use in worker.
+    void MapperWork(const std::string &workInfo);
+
+  private:
+    MapperResult _result;
+    size_t       _part_size;
+    std::string  _path_pre;
+    std::string  _name;
 };
 
 class ReduceInput {

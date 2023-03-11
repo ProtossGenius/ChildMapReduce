@@ -18,9 +18,10 @@ class AFileReader {
     // go to file's random position.
     virtual void seekg(size_t pos) = 0;
     // pointer's position.
-    virtual size_t tellg()            = 0;
-    virtual char  *read(size_t &size) = 0;
-    virtual size_t size()             = 0;
+    virtual size_t tellg() = 0;
+    // file's size.
+    virtual size_t size()                 = 0;
+    virtual size_t read(std::string &inp) = 0;
 };
 
 const size_t FSIZE_K = 1024, FSIZE_M = 1024 * FSIZE_K, FSIZE_G = 1024 * FSIZE_M,
@@ -34,8 +35,8 @@ class LocalFileReader : public AFileReader {
     std::string uri() const { return _uri; }
     void        seekg(size_t pos) { _reader.seekg(pos); }
     size_t      tellg() { return _reader.tellg(); }
-    char       *read(size_t &size);
     size_t      size();
+    size_t      read(std::string &inp);
 
   public:
     // should not change morethan one times.
