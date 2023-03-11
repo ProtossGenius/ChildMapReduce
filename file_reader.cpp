@@ -1,5 +1,5 @@
 #include "file_reader.h"
-
+#include <iostream>
 namespace pglang {
 namespace mapreduce {
 LocalFileReader::LocalFileReader(const std::string &path, size_t size)
@@ -13,7 +13,7 @@ size_t LocalFileReader::size() {
     _reader.seekg(0, _reader.end);
     int size = _reader.tellg();
     _reader.seekg(current);
-    return size;
+    return size < 0 ? 0 : size;
 }
 size_t LocalFileReader::read(std::string &inp) {
     size_t left_size = inp.size(), ptr = 0;

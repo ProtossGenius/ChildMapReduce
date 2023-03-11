@@ -53,10 +53,13 @@ class Mapper {
 
 class ReduceInput {
   public:
-    const std::string key();
-    bool              done();
-    const std::string value();
-    void              NextValue();
+    virtual ~ReduceInput() {}
+
+  public:
+    virtual const std::string key()       = 0;
+    virtual bool              done()      = 0;
+    virtual const std::string value()     = 0;
+    virtual void              NextValue() = 0;
 };
 
 class Reducer {

@@ -33,5 +33,6 @@ void sort_mapper_result(MapperResult &result) {
         }
     }
 }
+
 } // namespace mapreduce
 } // namespace pglang

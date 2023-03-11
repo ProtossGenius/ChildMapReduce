@@ -12,10 +12,10 @@ FetchContent_Declare(
     )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
+
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
 FetchContent_MakeAvailable(json)
 include_directories(. ./third_part/)
-
 add_library(mapreduce "")
 target_sources(mapreduce
     PRIVATE
@@ -26,6 +26,8 @@ target_sources(mapreduce
     ./file_spliter.cpp
     ./file_reader.h
     ./file_reader.cpp
+    ./mapper_result.h
+
     )
 target_link_libraries(mapreduce nlohmann_json::nlohmann_json)
 add_executable(master "")

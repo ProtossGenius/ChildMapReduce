@@ -1,4 +1,5 @@
 #include "file_spliter.h"
+#include "nlohmann/json.hpp"
 #include <fstream>
 #include <iostream>
 namespace pglang {
@@ -14,31 +15,32 @@ void find_end_pos(std::string                  &buffer,
                   std::unique_ptr<AFileReader> &_file_reader,
                   std::shared_ptr<EndChecker> _end_checker, size_t &cur);
 void FileSpliter::split(cb_file_split split) {
+    using json           = nlohmann::json;
     size_t      fileSize = _file_reader->size();
-    size_t      lastPos = 0, cur = 0;
+    size_t      begin = 0, end = 0;
     std::string buffer;
     buffer.resize(_end_checker->bufferSize());
-    while (lastPos < fileSize) {
-        _file_reader->seekg(std::min(lastPos + _size, fileSize));
-        cur = _file_reader->tellg();
-        if (cur == lastPos) break;
-        find_end_pos(buffer, _file_reader, _end_checker, cur);
-        split(_file_reader->uri() + "|" + std::to_string(lastPos) + "|" +
-              std::to_string(cur));
-
-        lastPos = cur + 1;
-        _file_reader->seekg(lastPos);
+    while (begin < fileSize) {
+        _file_reader->seekg(std::min(begin + _size, fileSize));
+        end = _file_reader->tellg();
+        if (begin == end) break;
+        find_end_pos(buffer, _file_reader, _end_checker, end);
+        json info = {
+            {"uri", _file_reader->uri()}, {"begin", begin}, {"end", end}};
+        split(info.dump());
+        begin = end + 1;
+        _file_reader->seekg(begin);
     }
 }
 
 void find_end_pos(std::string                  &buffer,
                   std::unique_ptr<AFileReader> &_file_reader,
-                  std::shared_ptr<EndChecker> _end_checker, size_t &cur) {
+                  std::shared_ptr<EndChecker> _end_checker, size_t &end) {
     _end_checker->clean();
     while (_end_checker->next()) {
         auto size = _file_reader->read(buffer);
         if (size == 0) break;
-        for (int i = 0; i < size && _end_checker->next(); ++i, ++cur) {
+        for (int i = 0; i < size && _end_checker->next(); ++i, ++end) {
             _end_checker->read(buffer[ i ]);
         }
     }
