@@ -8,7 +8,7 @@ namespace pglang {
 namespace mapreduce {
 /* MapperResult file format
 
-    |MaxKeySize(32)|KeyNum(32)|
+    |KeyMaxLen(32)|KeyNum(32)|
 
     |Key1(MaxKeySize)|StartPosition(64)|
     |Key2(MaxKeySize)|StartPosition(64)|
@@ -33,13 +33,13 @@ class MapperResultReader : public ReduceInput {
     ~MapperResultReader() {}
 
   public:
-    const std::string key();
-    bool              done();
-    const std::string value();
+    const std::string key() { return _key; }
+    bool              done() { return _next_size == -1; }
+    std::string       value() { return _value; }
     void              NextValue();
 
   public:
-    void resetKey(const std::string key);
+    void resetKey(const std::string &key);
 
   private:
     void readHeader();
@@ -48,7 +48,9 @@ class MapperResultReader : public ReduceInput {
     std::unique_ptr<AFileReader>  _reader;
     std::string                   _key;
     std::map<std::string, size_t> _pos_map;
-    bool                          _has_next;
+    size_t                        _begin;
+    int                           _next_size;
+    std::string                   _value;
 };
 class MapperResultWriter {};
 

@@ -33,8 +33,8 @@ union f_size_t {
     char   arr[ 8 ];
 };
 union f_int32 {
-    size_t value;
-    char   arr[ 4 ];
+    int  value;
+    char arr[ 4 ];
 };
 // not thread safe in multi-thread env.
 class LocalFileReader : public AFileReader {

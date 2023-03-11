@@ -12,7 +12,5 @@ class Defer {
     std::function<void()> _defer;
 };
 
-Defer defer(std::function<void()> defer) { return Defer{defer}; }
-
 } // namespace mapreduce
 } // namespace pglang

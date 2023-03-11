@@ -58,7 +58,7 @@ class ReduceInput {
   public:
     virtual const std::string key()       = 0;
     virtual bool              done()      = 0;
-    virtual const std::string value()     = 0;
+    virtual std::string       value()     = 0;
     virtual void              NextValue() = 0;
 };
 

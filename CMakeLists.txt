@@ -27,7 +27,7 @@ target_sources(mapreduce
     ./file_reader.h
     ./file_reader.cpp
     ./mapper_result.h
-
+    ./mapper_result.cpp
     )
 target_link_libraries(mapreduce nlohmann_json::nlohmann_json)
 add_executable(master "")
