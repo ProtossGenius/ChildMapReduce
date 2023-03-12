@@ -1,5 +1,9 @@
 #include "mapreduce.h"
+#include "defer.h"
+#include "file.h"
+#include "mapper_result.h"
 #include <algorithm>
+#include <fstream>
 namespace pglang {
 namespace mapreduce {
 
@@ -14,7 +18,7 @@ void Mapper::Emit(const std::string &key, const std::string &value) {
     _result[ index ][ key ].push_back(value);
 }
 
-void write_info(const std::string &path, const MapperResult &result) {}
+void write_info(const std::string &path, const MapperResult &result);
 void sort_mapper_result(MapperResult &result);
 
 void Mapper::MapperWork(const std::string &workInfo) {
@@ -23,7 +27,7 @@ void Mapper::MapperWork(const std::string &workInfo) {
     MapInput _input(std::move(input));
     Map(_input);
     sort_mapper_result(_result);
-    write_info(_path_pre + _name + ".", _result);
+    write_mapper_result(_path_pre + _name + ".", _result);
 }
 
 void sort_mapper_result(MapperResult &result) {

@@ -4,7 +4,8 @@ namespace pglang {
 namespace mapreduce {
 LocalFileReader::LocalFileReader(const std::string &path, size_t size)
     : _uri(path)
-    , _reader(path, std::ios::in) {
+    , _reader(path, std::ios::in)
+    , _buffer(nullptr) {
     setBufferSize(size);
 }
 

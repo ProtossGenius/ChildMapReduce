@@ -2,6 +2,7 @@
 #include <functional>
 #include <map>
 #include <string>
+#include <unordered_map>
 #include <vector>
 namespace pglang {
 namespace mapreduce {
@@ -22,9 +23,9 @@ class MapInput {
     std::string _value;
 };
 
-typedef std::unordered_map<size_t,
-                           std::map<std::string, std::vector<std::string>>>
-    MapperResult;
+typedef std::map<std::string, std::vector<std::string>> KeysResult;
+
+typedef std::unordered_map<size_t, KeysResult> MapperResult;
 class Mapper {
   public:
     Mapper(int part_size, const std::string &path_pre, const std::string &name);

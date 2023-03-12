@@ -20,6 +20,7 @@ add_library(mapreduce "")
 target_sources(mapreduce
     PRIVATE
     ./mapreduce.h
+    ./mapreduce.cpp
     ./param_parser.h
     ./param_parser.cpp
     ./file_spliter.h
@@ -62,7 +63,8 @@ target_link_libraries(
 enable_testing()
 
 add_executable(    unit_test
-    ./param_parser_test.cc
+    ./unit_test/param_parser_test.cc
+    ./unit_test/mapper_result_test.cc
     )
 target_link_libraries(
     unit_test

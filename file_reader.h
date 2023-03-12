@@ -1,5 +1,5 @@
 #pragma once
-#include <fstream>
+#include "file.h"
 #include <functional>
 #include <string>
 namespace pglang {
@@ -23,19 +23,9 @@ class AFileReader {
     virtual size_t size()                              = 0;
     virtual size_t read(std::string &inp)              = 0;
     virtual size_t readsome(char *buffer, size_t size) = 0;
+    virtual void   close()                             = 0;
 };
 
-const size_t FSIZE_K = 1024, FSIZE_M = 1024 * FSIZE_K, FSIZE_G = 1024 * FSIZE_M,
-             FSIZE_T = 1024 * FSIZE_G;
-
-union f_size_t {
-    size_t value;
-    char   arr[ 8 ];
-};
-union f_int32 {
-    int  value;
-    char arr[ 4 ];
-};
 // not thread safe in multi-thread env.
 class LocalFileReader : public AFileReader {
   public:
@@ -47,6 +37,7 @@ class LocalFileReader : public AFileReader {
     size_t      tellg() { return _reader.tellg(); }
     size_t      size();
     size_t      read(std::string &inp);
+    void        close() { _reader.close(); }
     size_t      readsome(char *buffer, size_t size) {
              return _reader.readsome(buffer, size);
     }
