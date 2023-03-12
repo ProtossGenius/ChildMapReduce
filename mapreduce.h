@@ -24,7 +24,7 @@ class MapInput {
 };
 
 typedef std::map<std::string, std::vector<std::string>> KeysResult;
-
+class Worker;
 typedef std::unordered_map<size_t, KeysResult> MapperResult;
 class Mapper {
   public:
@@ -42,8 +42,9 @@ class Mapper {
     // Emit the K-V pairs;
     void Emit(const std::string &key, const std::string &value);
 
-  public: // only use in worker.
+  private: // only use in worker.
     void MapperWork(const std::string &workInfo);
+    friend class Worker;
 
   private:
     MapperResult _result;
