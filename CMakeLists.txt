@@ -52,6 +52,8 @@ target_sources(mapreduce
     ./mapper_result.cpp
     ./worker_impl.h 
     ./worker_impl.cpp
+    ./master_impl.h 
+    ./master_impl.cpp
     ./defer.h
     ./file.h
     )

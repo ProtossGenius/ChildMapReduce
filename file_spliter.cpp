@@ -28,7 +28,7 @@ void FileSpliter::split(cb_file_split split) {
         json info = {
             {"uri", _file_reader->uri()}, {"begin", begin}, {"end", end}};
         split(info.dump());
-        begin = end + 1;
+        begin = end;
         _file_reader->seekg(begin);
     }
 }
