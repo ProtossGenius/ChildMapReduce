@@ -4,6 +4,26 @@ project(mapreduce)
 # GoogleTest requires at least C++14
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CXX_FLAGS
+        -g
+        # -DVALGRIND
+        -DCHECK_PTHREAD_RETURN_VALUE
+        -D_FILE_OFFSET_BITS=64
+        -Wall
+        -Wextra
+        -Werror
+        -Wconversion
+        -Wno-unused-parameter
+        -Wold-style-cast
+        -Woverloaded-virtual
+        -Wpointer-arith
+        -Wshadow
+        -Wwrite-strings
+        -march=native
+        # -MMD
+        -rdynamic 
+        )
+
 
 include(FetchContent)
 FetchContent_Declare(
@@ -15,6 +35,7 @@ FetchContent_MakeAvailable(googletest)
 
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
 FetchContent_MakeAvailable(json)
+
 include_directories(. ./third_part/)
 add_library(mapreduce "")
 target_sources(mapreduce
@@ -29,6 +50,8 @@ target_sources(mapreduce
     ./file_reader.cpp
     ./mapper_result.h
     ./mapper_result.cpp
+    ./worker_impl.h 
+    ./worker_impl.cpp
     ./defer.h
     ./file.h
     )

@@ -1,5 +1,6 @@
 #include "file_reader.h"
 #include <iostream>
+
 namespace pglang {
 namespace mapreduce {
 LocalFileReader::LocalFileReader(const std::string &path, size_t size)
