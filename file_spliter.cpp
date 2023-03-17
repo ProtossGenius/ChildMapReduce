@@ -14,7 +14,7 @@ FileSpliter::FileSpliter(std::unique_ptr<AFileReader> file, size_t size)
 void find_end_pos(std::string                  &buffer,
                   std::unique_ptr<AFileReader> &_file_reader,
                   std::shared_ptr<EndChecker> _end_checker, size_t &cur);
-void FileSpliter::split(cb_file_split split) {
+void FileSpliter::split(cb_file_split on_split) {
     using json           = nlohmann::json;
     size_t      fileSize = _file_reader->size();
     size_t      begin = 0, end = 0;
@@ -27,7 +27,7 @@ void FileSpliter::split(cb_file_split split) {
         find_end_pos(buffer, _file_reader, _end_checker, end);
         json info = {
             {"uri", _file_reader->uri()}, {"begin", begin}, {"end", end}};
-        split(info.dump());
+        on_split(info.dump());
         begin = end;
         _file_reader->seekg(begin);
     }

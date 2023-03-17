@@ -11,8 +11,10 @@ namespace mapreduce {
 
 class EndChecker {
   public:
-    bool           next() const { return _next; }
-    virtual void   read(char c) { _next = false; }
+    bool         next() const { return _next; }
+    virtual void read(char c) {
+        if (c == '\n') _next = false;
+    }
     virtual void   clean() { _next = true; }
     virtual size_t bufferSize() const { return 64; }
 

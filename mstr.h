@@ -1,23 +1,11 @@
 #pragma once
+#include <functional>
 #include <string>
-
 namespace pglang {
 namespace mapreduce {
 
-template <class Type> Type valueOf(const std::string &str) {
-    return Type::valueOf(str);
-}
+void split(const std::string &str, const std::string &split,
+           std::function<void(const std::string &)> cb);
 
-#define REG_VAL_OF(type, func)                                                 \
-    template <type> type valueOf(const std::string &str) { return func(str); }
-
-REG_VAL_OF(int, std::stoi);
-
-// REG_VAL_OF(double, std::stod);
-REG_VAL_OF(long, std::stol);
-// REG_VAL_OF(long double, std::stold);
-REG_VAL_OF(unsigned long, std::stoul);
-REG_VAL_OF(unsigned long long, std::stoull);
-REG_VAL_OF(long long, std::stoll);
 } // namespace mapreduce
 } // namespace pglang

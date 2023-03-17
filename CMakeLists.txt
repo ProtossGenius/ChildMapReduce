@@ -40,24 +40,27 @@ include_directories(. ./third_part/)
 add_library(mapreduce "")
 target_sources(mapreduce
     PRIVATE
-    ./mapreduce.h
-    ./mapreduce.cpp
-    ./param_parser.h
-    ./param_parser.cpp
-    ./file_spliter.h
-    ./file_spliter.cpp
-    ./file_reader.h
-    ./file_reader.cpp
-    ./mapper_result.h
-    ./mapper_result.cpp
-    ./worker_impl.h 
-    ./worker_impl.cpp
-    ./master_impl.h 
-    ./master_impl.cpp
-    ./defer.h
+    ./defer.h 
     ./file.h
+    ./file_reader.cpp
+    ./file_reader.h
+    ./file_spliter.cpp
+    ./file_spliter.h
+    ./mapper_result.cpp
+    ./mapper_result.h
+    ./mapreduce.cpp
+    ./mapreduce.h
+    ./master_impl.cpp
+    ./master_impl.h 
+    ./mstr.cpp 
+    ./mstr.h
+    ./param_parser.cpp
+    ./param_parser.h
+    ./version.h
+    ./worker_impl.cpp
+    ./worker_impl.h 
     )
-target_link_libraries(mapreduce nlohmann_json::nlohmann_json)
+target_link_libraries(mapreduce nlohmann_json::nlohmann_json leveldb)
 add_executable(master "")
 target_sources(master
     PRIVATE
@@ -92,6 +95,7 @@ enable_testing()
 add_executable(    unit_test
     ./unit_test/param_parser_test.cc
     ./unit_test/mapper_result_test.cc
+    ./unit_test/mapreduce_test.cc
     )
 target_link_libraries(
     unit_test

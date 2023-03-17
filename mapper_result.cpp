@@ -2,6 +2,7 @@
 #include "defer.h"
 #include <cstring>
 #include <iostream>
+#include <sstream>
 namespace pglang {
 namespace mapreduce {
 MapperResultReader::MapperResultReader(std::unique_ptr<AFileReader> reader,
@@ -16,7 +17,7 @@ MapperResultReader::MapperResultReader(std::unique_ptr<AFileReader> reader,
             "MapperResultReader need file not empty, file: " + _reader->uri());
     readHeader();
     resetKey(key);
-    NextValue();
+    if (!done()) NextValue();
 }
 
 inline int read_int(std::unique_ptr<AFileReader> &_reader) {
@@ -46,8 +47,12 @@ void MapperResultReader::readHeader() {
 
 void MapperResultReader::NextValue() {
     if (_done) {
-        throw std::runtime_error("MapperResultReader has no next value. did "
-                                 "you check function done() ?");
+        std::stringstream ss;
+        ss << "MapperResultReader:Has no next value. did you check function "
+              "done() ?"
+           << "\n\tFILE: " << _reader->uri() << "\t POS:" << _reader->tellg()
+           << "\tLAST_VALE:" << _value << "\n";
+        throw std::runtime_error(ss.str());
     }
     int _next_size = read_int(_reader);
     if (_next_size == -1) {

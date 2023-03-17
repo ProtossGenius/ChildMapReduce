@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <fstream>
 #include <iostream>
+#include <leveldb/db.h>
 #include <map>
 #include <stack>
 #include <string>
@@ -16,12 +17,4 @@ int main(int arg, const char **args) {
     using namespace pglang::mapreduce;
     CmdLineRegist reg({arg, args});
     reg.parse();
-    auto        u(std::make_unique<LocalFileReader>("out.txt"));
-    FileSpliter fs(std::move(u), 20);
-    fs.split([](const auto &str) { cout << str << endl; });
-    ofstream of("2.txt", ios::out);
-    of.seekp(50);
-    of.write("hello world", 10);
-    of.flush();
-    of.close();
 }
