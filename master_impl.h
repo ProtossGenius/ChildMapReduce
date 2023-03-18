@@ -22,6 +22,7 @@ class Master {
     virtual void ListKeysInfo(CBOnReduceWork keyFilesInfo)    = 0;
     virtual void AcceptReduceResult(const std::string &key,
                                     const std::string &value) = 0;
+    virtual void ListResult(CBOnReduceWork result)            = 0;
 
   protected:
     const std::string &getCreateInfo() { return _create_info; }

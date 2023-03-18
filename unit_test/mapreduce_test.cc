@@ -68,7 +68,11 @@ TEST(MapReduceTest, BasicAssertions) {
         });
     });
     vector<pair<string, string>> result;
-    worker->ReduceDone([ &result ](const auto &key, const auto &value) {
+    worker->ReduceDone([ &master ](const auto &key, const auto &value) {
+        master->AcceptReduceResult(key, value);
+    });
+
+    master->ListResult([ &result ](const auto &key, const auto &value) {
         result.push_back({key, value});
     });
 

@@ -18,6 +18,7 @@ class LocalMaster : public Master {
 
     void AcceptReduceResult(const std::string &key,
                             const std::string &value) override;
+    void ListResult(CBOnReduceWork result) override;
 
   private:
     std::unique_ptr<leveldb::DB> _file_info_db;
@@ -28,8 +29,22 @@ Master *createMaster(const std::string &createInfo) {
     return new LocalMaster(createInfo);
 }
 
+void LocalMaster::ListResult(CBOnReduceWork cb) {
+    auto iter = _result_db->NewIterator(leveldb::ReadOptions());
+    for (iter->SeekToFirst(); iter->Valid(); iter->Next()) {
+        cb(iter->key().ToString(), iter->value().ToString());
+    }
+}
+
 void LocalMaster::AcceptReduceResult(const std::string &key,
-                                     const std::string &value) {}
+                                     const std::string &value) {
+    auto status = _result_db->Put(leveldb::WriteOptions(), key, value);
+    if (!status.ok()) {
+        throw std::runtime_error("When AcceptReduceResult : Key = " + key +
+                                 "; value = " + value + "\n" +
+                                 status.ToString());
+    }
+}
 void LocalMaster::AcceptKeyInfo(const std::string &key,
                                 const std::string &file) {
     std::string value;
