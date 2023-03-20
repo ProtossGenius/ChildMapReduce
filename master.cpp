@@ -3,6 +3,7 @@
 #include "file_spliter.h"
 #include "nlohmann/json.hpp"
 #include "param_parser.h"
+#include "thread_pool.h"
 #include <cstdio>
 #include <fstream>
 #include <iostream>

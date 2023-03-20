@@ -35,7 +35,6 @@ FetchContent_MakeAvailable(googletest)
 
 FetchContent_Declare(json URL https://github.com/nlohmann/json/releases/download/v3.11.2/json.tar.xz)
 FetchContent_MakeAvailable(json)
-
 include_directories(. ./third_part/)
 add_library(mapreduce "")
 target_sources(mapreduce
@@ -57,10 +56,12 @@ target_sources(mapreduce
     ./param_parser.cpp
     ./param_parser.h
     ./version.h
+    ./thread_pool.h 
+    ./thread_pool.cpp
     ./worker_impl.cpp
     ./worker_impl.h 
     )
-target_link_libraries(mapreduce nlohmann_json::nlohmann_json leveldb)
+target_link_libraries(mapreduce nlohmann_json::nlohmann_json leveldb boost_system boost_thread  pthread)
 add_executable(master "")
 target_sources(master
     PRIVATE

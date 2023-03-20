@@ -3,6 +3,7 @@ MapReduce's easy implements by C++.
 
 # Catalog
 * [\<file>actions.md -> 编写日志](./actions.md)
+* [\<file>doc.md -> 系统介绍](./doc.md)
 
 # SubCatalog
 
